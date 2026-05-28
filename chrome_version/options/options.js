@@ -320,11 +320,14 @@ async function loadAndRenderLimits() {
   const domains = Object.keys(limits);
   
   if (domains.length === 0) {
-    tbody.innerHTML = `
-      <tr class="empty-state-row">
-        <td colspan="3" data-i18n="limits_empty">${t("limits_empty")}</td>
-      </tr>
-    `;
+    const trEmpty = document.createElement("tr");
+    trEmpty.className = "empty-state-row";
+    const tdEmpty = document.createElement("td");
+    tdEmpty.setAttribute("colspan", "3");
+    tdEmpty.setAttribute("data-i18n", "limits_empty");
+    tdEmpty.textContent = t("limits_empty");
+    trEmpty.appendChild(tdEmpty);
+    tbody.appendChild(trEmpty);
     return;
   }
   
@@ -341,31 +344,84 @@ async function loadAndRenderLimits() {
     if (limitSeconds === 0) limitStr = `0 ${currentLanguage === "tr" ? "saniye" : "seconds"} (${t("always_blocked_str")})`;
 
     const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td class="domain-name">${escapeHTML(domain)}</td>
-      <td>${limitStr}</td>
-      <td>
-        <div class="table-actions">
-          <button class="btn-action btn-edit" data-domain="${escapeHTML(domain)}" title="${currentLanguage === 'tr' ? 'Limiti Düzenle' : 'Edit Limit'}">
-            <svg class="action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-              <path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4z"></path>
-            </svg>
-          </button>
-          <button class="btn-action btn-delete" data-domain="${escapeHTML(domain)}" title="${currentLanguage === 'tr' ? 'Limiti Sil' : 'Delete Limit'}">
-            <svg class="action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="3 6 5 6 21 6"></polyline>
-              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-              <line x1="10" y1="11" x2="10" y2="17"></line>
-              <line x1="14" y1="11" x2="14" y2="17"></line>
-            </svg>
-          </button>
-        </div>
-      </td>
-    `;
+
+    const tdDomain = document.createElement("td");
+    tdDomain.className = "domain-name";
+    tdDomain.textContent = domain;
+
+    const tdLimit = document.createElement("td");
+    tdLimit.textContent = limitStr;
+
+    const tdActions = document.createElement("td");
+    const actionsDiv = document.createElement("div");
+    actionsDiv.className = "table-actions";
+
+    const btnEdit = document.createElement("button");
+    btnEdit.className = "btn-action btn-edit";
+    btnEdit.setAttribute("data-domain", domain);
+    btnEdit.setAttribute("title", currentLanguage === 'tr' ? 'Limiti Düzenle' : 'Edit Limit');
+
+    const svgEdit = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svgEdit.setAttribute("class", "action-icon");
+    svgEdit.setAttribute("viewBox", "0 0 24 24");
+    svgEdit.setAttribute("fill", "none");
+    svgEdit.setAttribute("stroke", "currentColor");
+    svgEdit.setAttribute("stroke-width", "2");
+    svgEdit.setAttribute("stroke-linecap", "round");
+    svgEdit.setAttribute("stroke-linejoin", "round");
+
+    const pathEdit1 = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    pathEdit1.setAttribute("d", "M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7");
+    const pathEdit2 = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    pathEdit2.setAttribute("d", "M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4z");
+    svgEdit.appendChild(pathEdit1);
+    svgEdit.appendChild(pathEdit2);
+    btnEdit.appendChild(svgEdit);
+
+    const btnDelete = document.createElement("button");
+    btnDelete.className = "btn-action btn-delete";
+    btnDelete.setAttribute("data-domain", domain);
+    btnDelete.setAttribute("title", currentLanguage === 'tr' ? 'Limiti Sil' : 'Delete Limit');
+
+    const svgDelete = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svgDelete.setAttribute("class", "action-icon");
+    svgDelete.setAttribute("viewBox", "0 0 24 24");
+    svgDelete.setAttribute("fill", "none");
+    svgDelete.setAttribute("stroke", "currentColor");
+    svgDelete.setAttribute("stroke-width", "2");
+    svgDelete.setAttribute("stroke-linecap", "round");
+    svgDelete.setAttribute("stroke-linejoin", "round");
+
+    const polylineDel = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
+    polylineDel.setAttribute("points", "3 6 5 6 21 6");
+    const pathDel = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    pathDel.setAttribute("d", "M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2");
+    const lineDel1 = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    lineDel1.setAttribute("x1", "10");
+    lineDel1.setAttribute("y1", "11");
+    lineDel1.setAttribute("x2", "10");
+    lineDel1.setAttribute("y2", "17");
+    const lineDel2 = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    lineDel2.setAttribute("x1", "14");
+    lineDel2.setAttribute("y1", "11");
+    lineDel2.setAttribute("x2", "14");
+    lineDel2.setAttribute("y2", "17");
+    svgDelete.appendChild(polylineDel);
+    svgDelete.appendChild(pathDel);
+    svgDelete.appendChild(lineDel1);
+    svgDelete.appendChild(lineDel2);
+    btnDelete.appendChild(svgDelete);
+
+    actionsDiv.appendChild(btnEdit);
+    actionsDiv.appendChild(btnDelete);
+    tdActions.appendChild(actionsDiv);
+
+    tr.appendChild(tdDomain);
+    tr.appendChild(tdLimit);
+    tr.appendChild(tdActions);
     
-    tr.querySelector(".btn-edit").addEventListener("click", handleEditLimitClick);
-    tr.querySelector(".btn-delete").addEventListener("click", handleDeleteLimit);
+    btnEdit.addEventListener("click", handleEditLimitClick);
+    btnDelete.addEventListener("click", handleDeleteLimit);
     tbody.appendChild(tr);
   });
 }
@@ -504,9 +560,11 @@ async function loadAndRenderStats() {
   container.innerHTML = "";
   
   if (domains.length === 0) {
-    container.innerHTML = `
-      <div class="empty-state" data-i18n="stats_empty">${t("stats_empty")}</div>
-    `;
+    const emptyDiv = document.createElement("div");
+    emptyDiv.className = "empty-state";
+    emptyDiv.setAttribute("data-i18n", "stats_empty");
+    emptyDiv.textContent = t("stats_empty");
+    container.appendChild(emptyDiv);
     totalTodayText.textContent = `0 ${currentLanguage === "tr" ? "saniye" : "seconds"}`;
     return;
   }
@@ -541,15 +599,33 @@ async function loadAndRenderStats() {
     
     const row = document.createElement("div");
     row.classList.add("stat-row");
-    row.innerHTML = `
-      <div class="stat-row-meta">
-        <span class="stat-row-domain">${escapeHTML(domain)}</span>
-        <span class="stat-row-time">${formatDuration(spent)}${limitInfoStr}</span>
-      </div>
-      <div class="progress-track">
-        <div class="progress-bar ${barClass}" style="width: ${percentage}%"></div>
-      </div>
-    `;
+
+    const metaDiv = document.createElement("div");
+    metaDiv.className = "stat-row-meta";
+
+    const domainSpan = document.createElement("span");
+    domainSpan.className = "stat-row-domain";
+    domainSpan.textContent = domain;
+
+    const timeSpan = document.createElement("span");
+    timeSpan.className = "stat-row-time";
+    timeSpan.textContent = `${formatDuration(spent)}${limitInfoStr}`;
+
+    metaDiv.appendChild(domainSpan);
+    metaDiv.appendChild(timeSpan);
+
+    const trackDiv = document.createElement("div");
+    trackDiv.className = "progress-track";
+
+    const barDiv = document.createElement("div");
+    barDiv.className = `progress-bar ${barClass}`;
+    barDiv.style.width = `${percentage}%`;
+
+    trackDiv.appendChild(barDiv);
+
+    row.appendChild(metaDiv);
+    row.appendChild(trackDiv);
+
     container.appendChild(row);
   });
 }

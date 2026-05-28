@@ -172,9 +172,11 @@ function renderUI() {
 
   const limitDomains = Object.keys(limits);
   if (limitDomains.length === 0) {
-    listContainer.innerHTML = `
-      <div class="empty-state" data-i18n="popup_empty_state">${t("popup_empty_state")}</div>
-    `;
+    const emptyDiv = document.createElement("div");
+    emptyDiv.className = "empty-state";
+    emptyDiv.setAttribute("data-i18n", "popup_empty_state");
+    emptyDiv.textContent = t("popup_empty_state");
+    listContainer.appendChild(emptyDiv);
     return;
   }
 
@@ -208,15 +210,35 @@ function renderUI() {
     const row = document.createElement("div");
     row.classList.add("stat-row");
     row.setAttribute("data-domain-row", d);
-    row.innerHTML = `
-      <div class="stat-row-meta">
-        <span class="stat-row-domain">${escapeHTML(d)}</span>
-        <span class="stat-row-time" id="row-time-${escapeHTML(d).replace(/\./g, '_')}">${timeStr}</span>
-      </div>
-      <div class="progress-track">
-        <div class="progress-bar ${barClass}" id="row-bar-${escapeHTML(d).replace(/\./g, '_')}" style="width: ${percent}%"></div>
-      </div>
-    `;
+
+    const metaDiv = document.createElement("div");
+    metaDiv.className = "stat-row-meta";
+
+    const domainSpan = document.createElement("span");
+    domainSpan.className = "stat-row-domain";
+    domainSpan.textContent = d;
+
+    const timeSpan = document.createElement("span");
+    timeSpan.className = "stat-row-time";
+    timeSpan.id = `row-time-${d.replace(/\./g, '_')}`;
+    timeSpan.textContent = timeStr;
+
+    metaDiv.appendChild(domainSpan);
+    metaDiv.appendChild(timeSpan);
+
+    const trackDiv = document.createElement("div");
+    trackDiv.className = "progress-track";
+
+    const barDiv = document.createElement("div");
+    barDiv.className = `progress-bar ${barClass}`;
+    barDiv.id = `row-bar-${d.replace(/\./g, '_')}`;
+    barDiv.style.width = `${percent}%`;
+
+    trackDiv.appendChild(barDiv);
+
+    row.appendChild(metaDiv);
+    row.appendChild(trackDiv);
+
     listContainer.appendChild(row);
   });
 }
