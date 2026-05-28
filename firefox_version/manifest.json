@@ -1,5 +1,11 @@
 {
   "manifest_version": 3,
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "timeguard@emiryilmaz.dev",
+      "strict_min_version": "109.0"
+    }
+  },
   "name": "TimeGuard",
   "version": "1.0.0",
   "description": "A sleek and modern time manager that measures your time spent on websites and blocks them when daily limits are exceeded.",
