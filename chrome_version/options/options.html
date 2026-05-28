@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TimeGuard - Ayarlar ve Limitler</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div class="background-decorations">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+  </div>
+
+  <div class="app-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar glass">
+      <div class="brand">
+
+        <div class="brand-name">
+          <h2>TimeGuard</h2>
+          <span data-i18n="brand_sub">Zaman Yönetimi</span>
+        </div>
+      </div>
+
+      <nav class="nav-menu">
+        <button class="nav-item active" data-tab="limits">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+          <span data-i18n="nav_limits">Süre Limitleri</span>
+        </button>
+        <button class="nav-item" data-tab="stats">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="20" x2="18" y2="10"></line>
+            <line x1="12" y1="20" x2="12" y2="4"></line>
+            <line x1="6" y1="20" x2="6" y2="14"></line>
+          </svg>
+          <span data-i18n="nav_stats">Kullanım Analizi</span>
+        </button>
+        <button class="nav-item" data-tab="settings">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+          <span data-i18n="nav_settings">Genel Ayarlar</span>
+        </button>
+      </nav>
+      
+      <div class="sidebar-footer">
+        <span>TimeGuard v1.0.0</span>
+      </div>
+    </aside>
+
+    <!-- Main Panel Content -->
+    <main class="main-content">
+      <!-- Alerts & Notifications -->
+      <div id="toast" class="toast hidden"></div>
+
+      <!-- Tab: Limits -->
+      <section id="tab-limits" class="tab-panel active">
+        <header class="panel-header">
+          <h1 data-i18n="limits_title">Süre Limitleri</h1>
+          <p data-i18n="limits_desc">Hangi sitede ne kadar süre harcamak istediğinizi belirleyin. Sınır aşıldığında site otomatik engellenir.</p>
+        </header>
+
+        <div class="limit-grid">
+          <!-- Add Limit Card -->
+          <div class="card glass new-limit-card">
+            <h3 data-i18n="add_limit_title">Yeni Sınır Ekle</h3>
+            <form id="form-add-limit">
+              <div class="input-group">
+                <label for="input-domain" data-i18n="label_domain">Web Sitesi (Domain)</label>
+                <input type="text" id="input-domain" placeholder="örn: youtube.com" required autocomplete="off">
+              </div>
+              
+              <div class="time-inputs">
+                <div class="input-group">
+                  <label for="input-hours" data-i18n="label_hours">Saat</label>
+                  <input type="number" id="input-hours" min="0" max="23" value="0">
+                </div>
+                <div class="input-group">
+                  <label for="input-minutes" data-i18n="label_minutes">Dakika</label>
+                  <input type="number" id="input-minutes" min="0" max="59" value="30">
+                </div>
+              </div>
+
+              <div class="form-actions">
+                <button type="submit" id="btn-submit-limit" class="btn btn-primary">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="btn-icon">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                  </svg>
+                  <span id="submit-text">Limiti Ekle</span>
+                </button>
+                <button type="button" id="btn-cancel-edit" class="btn btn-outline-secondary hidden" data-i18n="btn_cancel">
+                  Vazgeç
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Existing Limits List -->
+          <div class="card glass limits-list-card">
+            <h3 data-i18n="active_limits_title">Aktif Limitleriniz</h3>
+            <div class="limits-table-container">
+              <table class="limits-table">
+                <thead>
+                  <tr>
+                    <th data-i18n="th_site">Süpervizör Site</th>
+                    <th data-i18n="th_limit">Tanımlanan Limit</th>
+                    <th data-i18n="th_actions">Eylemler</th>
+                  </tr>
+                </thead>
+                <tbody id="limits-list-tbody">
+                  <!-- Dynamic limit entries will be injected here -->
+                  <tr class="empty-state-row">
+                    <td colspan="3" data-i18n="limits_empty">Tanımlı aktif limit bulunmamaktadır.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tab: Stats -->
+      <section id="tab-stats" class="tab-panel">
+        <header class="panel-header">
+          <h1 data-i18n="stats_title">Kullanım Analizi</h1>
+          <p data-i18n="stats_desc">Bugün sitelerde ne kadar zaman harcadığınızı ve limit doluluk oranlarınızı inceleyin.</p>
+        </header>
+
+        <div class="stats-grid">
+          <!-- Total Time Summary -->
+          <div class="card glass summary-card">
+            <div class="summary-stat">
+              <span class="summary-label" data-i18n="total_spent_today">Bugün Toplam Harcanan Süre</span>
+              <span id="total-time-today" class="summary-value">0dk 0sn</span>
+            </div>
+            <div class="summary-chart-container">
+              <!-- Visual bar elements will be injected here -->
+            </div>
+          </div>
+
+          <!-- Detailed Stats List -->
+          <div class="card glass stats-list-card">
+            <h3 data-i18n="stats_list_title">Bugün Hangi Sitede Ne Kadar Harcandı?</h3>
+            <div class="stats-list" id="stats-list-container">
+              <!-- Dynamic stats elements -->
+              <div class="empty-state" data-i18n="stats_empty">Henüz bugüne ait bir süre kaydı bulunmuyor. Siteleri gezmeye başladığınızda istatistikler burada görüntülenecektir.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tab: Settings -->
+      <section id="tab-settings" class="tab-panel">
+        <header class="panel-header">
+          <h1 data-i18n="settings_title">Genel Ayarlar</h1>
+          <p data-i18n="settings_desc">Eklenti tercihlerini özelleştirin ve verilerinizi yönetin.</p>
+        </header>
+
+        <div class="settings-grid">
+          <!-- Theme Settings Card -->
+          <div class="card glass settings-card">
+            <h3 data-i18n="appearance_title">Görünüm ve Tema</h3>
+            <p class="setting-desc" data-i18n="appearance_desc">TimeGuard arayüzünün (Pop-up, Ayarlar, Engelleme Ekranı) tema seçimini ayarlayın.</p>
+            
+            <div class="theme-picker">
+              <button class="theme-btn active" data-theme-val="system">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                  <line x1="8" y1="21" x2="16" y2="21"></line>
+                  <line x1="12" y1="17" x2="12" y2="21"></line>
+                </svg>
+                <span data-i18n="theme_system">Sistem</span>
+              </button>
+              <button class="theme-btn" data-theme-val="light">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="5"></circle>
+                  <line x1="12" y1="1" x2="12" y2="3"></line>
+                  <line x1="12" y1="21" x2="12" y2="23"></line>
+                  <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                  <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                  <line x1="1" y1="12" x2="3" y2="12"></line>
+                  <line x1="21" y1="12" x2="23" y2="12"></line>
+                  <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                  <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+                <span data-i18n="theme_light">Açık Tema</span>
+              </button>
+              <button class="theme-btn" data-theme-val="dark">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+                <span data-i18n="theme_dark">Koyu Tema</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Language Settings Card -->
+          <div class="card glass settings-card">
+            <h3 data-i18n="language_title">Dil / Language</h3>
+            <p class="setting-desc" data-i18n="language_desc">Eklentinin dil tercihini değiştirin. / Change the language preference of the extension.</p>
+            
+            <div class="theme-picker lang-picker">
+              <button class="theme-btn active" data-lang-val="tr">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
+                  <path d="M2 12h20"></path>
+                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                </svg>
+                <span data-i18n="lang_tr">Türkçe</span>
+              </button>
+              <button class="theme-btn" data-lang-val="en">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
+                  <path d="M2 12h20"></path>
+                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                </svg>
+                <span data-i18n="lang_en">English</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Data Management Card -->
+          <div class="card glass settings-card">
+            <h3 data-i18n="data_title">Veri ve Hafıza Yönetimi</h3>
+            <p class="setting-desc" data-i18n="data_desc">Eklenti tarafından yerel hafızada depolanan süreyi sıfırlayabilir veya tüm limitlerinizi temizleyebilirsiniz.</p>
+            
+            <div class="danger-zone">
+              <button id="btn-reset-stats" class="btn btn-outline-danger" data-i18n="btn_reset_stats">
+                İstatistikleri Sıfırla
+              </button>
+              <button id="btn-reset-all" class="btn btn-danger" data-i18n="btn_reset_all">
+                Tüm Ayarları ve Limitleri Temizle
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>

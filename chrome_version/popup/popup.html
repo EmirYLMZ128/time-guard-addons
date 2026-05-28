@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TimeGuard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="background-decorations">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+  </div>
+
+  <div class="popup-wrapper">
+    <!-- Header -->
+    <header class="header">
+      <div class="logo">
+        <svg class="logo-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2L3 7V12C3 16.52 6.84 20.74 12 22C17.16 20.74 21 16.52 21 12V7L12 2Z" fill="url(#logo-grad)" stroke="none"/>
+          <path d="M12 7V17" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+          <path d="M9 7H15" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+          <defs>
+            <linearGradient id="logo-grad" x1="3" y1="2" x2="21" y2="22" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#6366f1"/>
+              <stop offset="1" stop-color="#a855f7"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <span class="logo-text">TimeGuard</span>
+      </div>
+      <div class="status-indicator">
+        <span class="pulse-dot"></span>
+        <span class="status-label" data-i18n="status_active">Aktif</span>
+      </div>
+    </header>
+
+    <!-- Today's Total Panel -->
+    <section class="total-panel card glass">
+      <span class="panel-label" data-i18n="total_spent_today">Bugün Toplam Harcanan</span>
+      <h1 id="total-time" class="total-value">0dk 0sn</h1>
+    </section>
+
+    <!-- Active Site Section -->
+    <section class="active-site-panel card glass">
+      <span class="panel-label" data-i18n="current_tab">Mevcut Sekme</span>
+      <div class="active-site-info">
+        <span id="active-domain" class="active-domain" data-i18n="out_of_scope">Sistem Dışı Sekme</span>
+        <span id="active-time" class="active-time">0sn</span>
+      </div>
+    </section>
+
+    <!-- Top Sites Section -->
+    <section class="top-sites-panel">
+      <h3 class="section-title" data-i18n="limit_statuses">Limit Durumları (Kalan Süre)</h3>
+      <div id="top-sites-list" class="top-sites-list">
+        <!-- Dynamic list entries -->
+        <div class="empty-state" data-i18n="popup_empty_state">Bugün henüz veri kaydedilmedi. Tarayıcıda gezindikçe süreleriniz burada görünecektir.</div>
+      </div>
+    </section>
+
+    <!-- Footer Controls -->
+    <footer class="footer">
+      <button id="btn-open-options" class="footer-btn btn-settings" title="Ayarları Aç">
+        <svg class="footer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+        <span data-i18n="limits_and_settings">Limitler ve Detaylı Ayarlar</span>
+      </button>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
